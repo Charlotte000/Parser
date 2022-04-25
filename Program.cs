@@ -25,7 +25,7 @@
                 Thread.Sleep(5000);
             }
 
-            Program.SaveData(data, "dataRostov.csv");
+            Program.SaveData(data, "data.csv");
         }
 
         static List<ProductData> ParseProducts(List<Url> links)
@@ -72,15 +72,18 @@
             var csv = new StringBuilder();
 
             // Header
-            csv.AppendLine(
-                "Название товара;" +
-                "Доступность;" +
-                "Цена;" +
-                "Цена старая;" +
-                "Хлебные крошки;" +
-                "Регион;" +
-                "Сслыка на товар;" +
-                "Ссылки на картинки");
+            if (!File.Exists(fileName))
+            {
+                csv.AppendLine(
+                    "Название товара;" +
+                    "Доступность;" +
+                    "Цена;" +
+                    "Цена старая;" +
+                    "Хлебные крошки;" +
+                    "Регион;" +
+                    "Сслыка на товар;" +
+                    "Ссылки на картинки");
+            }
 
             // Content
             foreach (var product in data)
@@ -96,7 +99,7 @@
                     $"{string.Join(", ", product.ImagesLink)}");
             }
 
-            File.WriteAllText(fileName, csv.ToString(), Encoding.GetEncoding("windows-1251"));
+            File.AppendAllText(fileName, csv.ToString(), Encoding.GetEncoding("windows-1251"));
         }
     }
 }
