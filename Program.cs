@@ -10,6 +10,9 @@
             // Set windows-1251 encoding
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
+            // Set current city
+            Parser.CurrentCity = Parser.Rostov;
+
             var data = new List<ProductData>();
 
             var pageNum = Parser.GetPageCount().Result;
@@ -22,7 +25,7 @@
                 Thread.Sleep(5000);
             }
 
-            Program.SaveData(data, "data.csv");
+            Program.SaveData(data, "dataRostov.csv");
         }
 
         static List<ProductData> ParseProducts(List<Url> links)

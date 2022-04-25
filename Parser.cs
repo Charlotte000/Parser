@@ -10,6 +10,14 @@
     {
         public const string BaseURL = "https://www.toy.ru/";
 
+        public const string Moscow = "77000000000";
+
+        public const string SaintPetersburg = "78000000000";
+
+        public const string Rostov = "61000001000";
+
+        public static string CurrentCity = Parser.Moscow;
+
         private static HtmlParser htmlParser = new ();
 
         public static async Task<int> GetPageCount()
@@ -118,7 +126,9 @@
 
         private static async Task<string?> GetRequest(Url url)
         {
-            var client = new HttpClient();
+            var handler = new HttpClientHandler() { UseCookies = true };
+            handler.CookieContainer.Add(url, new Cookie("BITRIX_SM_city", Parser.CurrentCity));
+            var client = new HttpClient(handler);
 
             var request = await client.GetAsync(url);
             if (request.StatusCode != HttpStatusCode.OK)
